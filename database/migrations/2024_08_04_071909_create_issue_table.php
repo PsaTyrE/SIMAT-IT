@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('deskripsi');
             $table->enum('status', ['open', 'onhold', 'complete'])->default('open');
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }
