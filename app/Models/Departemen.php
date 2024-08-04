@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Departemen extends Model
 {
     use HasFactory;
-
-    protected $fillable = [];
+    protected $table = 'departemen';
+    protected $fillable = ['nama_departemen'];
 
     public function issue()
     {
