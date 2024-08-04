@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Departemen extends Model
 {
     use HasFactory;
+    protected $fillable = ['nama_departemen'];
+
+    public function issue()
+    {
+        return $this->hasMany(Issue::class, 'issueID', 'id');
+    }
 }
