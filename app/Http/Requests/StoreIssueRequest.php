@@ -22,7 +22,11 @@ class StoreIssueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'departemenID' => 'required|exists:departemen,id',
+            'nama' => 'required|max:255',
+            'deskripsi' => 'required|max:255',
+            'hardwareID.*' => 'required|exists:hardware,id'
+
         ];
     }
 }
