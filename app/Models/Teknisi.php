@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Teknisi extends Model
 {
     use HasFactory;
-    protected $fillable = ['nama_hardware'];
+
+    protected $fillable = [];
 
     public function issue()
     {

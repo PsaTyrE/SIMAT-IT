@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Hardware;
+use App\Http\Requests\StoreHardwareRequest;
+use App\Http\Requests\UpdateHardwareRequest;
 
-class Issue extends Controller
+class HardwareController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +27,7 @@ class Issue extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreHardwareRequest $request)
     {
         //
     }
@@ -33,7 +35,7 @@ class Issue extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Hardware $hardware)
     {
         //
     }
@@ -41,7 +43,7 @@ class Issue extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Hardware $hardware)
     {
         //
     }
@@ -49,7 +51,7 @@ class Issue extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateHardwareRequest $request, Hardware $hardware)
     {
         //
     }
@@ -57,7 +59,7 @@ class Issue extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Hardware $hardware)
     {
         //
     }

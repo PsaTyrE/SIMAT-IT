@@ -9,7 +9,8 @@ class Hardware extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama_hardware'];
+    protected $fillable = [];
+
     public function issue()
     {
         return $this->belongsToMany(Issue::class, 'hardware_issue', 'issueID', 'hardwareID');
