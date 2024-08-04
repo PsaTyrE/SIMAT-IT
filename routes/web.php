@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('pages.dashboard', [
+        'type_menu' => 'dahsboard'
+    ]);
+})->name('dashboard');
 
 Route::resource('issue', IssueController::class);
+Route::get('issue-today', [IssueController::class, 'issueToday'])->name('issueToday');
