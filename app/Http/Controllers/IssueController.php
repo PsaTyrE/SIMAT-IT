@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Issue;
 use App\Http\Requests\StoreIssueRequest;
 use App\Http\Requests\UpdateIssueRequest;
+use App\Models\Departemen;
+use App\Models\Hardware;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -16,15 +18,15 @@ class IssueController extends Controller
     public function index(Request $request)
     {
         $issue = Issue::with(['departemen', 'teknisi', 'hardware'])
-        ->where('status', 'complete')
-        ->when($request->input('nama'), function($query, $nama){
-            return $query->where('nama', 'like' , '%' . $nama . '%');
-        })
-        ->when($request->input('created_at'), function($query, $created_at){
-            return $query->where('created_at', 'like' , '%' . $created_at . '%');
-        })
-        ->orderBy('id', 'desc')
-        ->paginate(10);
+            ->where('status', 'complete')
+            ->when($request->input('nama'), function ($query, $nama) {
+                return $query->where('nama', 'like', '%' . $nama . '%');
+            })
+            ->when($request->input('created_at'), function ($query, $created_at) {
+                return $query->where('created_at', 'like', '%' . $created_at . '%');
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
         return view('pages.issue.issue', compact('issue'));
     }
@@ -33,24 +35,24 @@ class IssueController extends Controller
     {
         $today = Carbon::now()->format('Y-m-d');
         $issue = Issue::with(['departemen', 'teknisi', 'hardware'])
-        ->where(function ($query) use ($today) {
-            $query->whereDate('created_at', $today)
-                ->orWhere(function ($query) use ($today) {
-                    $query->whereDate('created_at', '<', $today)
-                        ->where(function ($query) {
-                            $query->where('status', 'open')
-                                ->orWhere('status', 'onhold');
-                        });
-                });
-        })
-        ->when($request->input('nama'), function($query, $nama){
-            return $query->where('nama', 'like', '%' . $nama . '%');
-        })
-        ->when($request->input('created_at'), function($query, $created_at){
-            return $query->where('created_at', 'like', '%' . $created_at . '%');
-        })
-        ->orderBy('id', 'desc')
-        ->paginate(10);
+            ->where(function ($query) use ($today) {
+                $query->whereDate('created_at', $today)
+                    ->orWhere(function ($query) use ($today) {
+                        $query->whereDate('created_at', '<', $today)
+                            ->where(function ($query) {
+                                $query->where('status', 'open')
+                                    ->orWhere('status', 'onhold');
+                            });
+                    });
+            })
+            ->when($request->input('nama'), function ($query, $nama) {
+                return $query->where('nama', 'like', '%' . $nama . '%');
+            })
+            ->when($request->input('created_at'), function ($query, $created_at) {
+                return $query->where('created_at', 'like', '%' . $created_at . '%');
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
         return view('pages.issue.issue-today', compact('issue'));
     }
@@ -60,7 +62,10 @@ class IssueController extends Controller
      */
     public function create()
     {
-        //
+        $departemen = Departemen::select('id', 'nama_departemen');
+        $hardware = Hardware::select('id', 'nama_hardware');
+
+        return view('pages.issue.create', compact('departemen', 'hardware'));
     }
 
     /**
@@ -68,7 +73,15 @@ class IssueController extends Controller
      */
     public function store(StoreIssueRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+        $issue = Issue::create($validatedData);
+
+        if ($issue) {
+            $hardwareID = $request->input('hardwareID', []);
+            $issue->hardware()->sync($hardwareID);
+        }
+
+        return redirect()->route('issueToday')->with('success', 'Data berhasil Ditambahkan');
     }
 
     /**
