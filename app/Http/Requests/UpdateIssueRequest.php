@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateIssueRequest extends FormRequest
@@ -11,7 +12,7 @@ class UpdateIssueRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,13 @@ class UpdateIssueRequest extends FormRequest
      */
     public function rules(): array
     {
+        $statuses = ['open', 'onhold', 'complete'];
         return [
-            //
+            'teknisiID' => 'required"exists:teknisi,id',
+            'note' => 'required|max:255',
+            'status' => ['required', Rule::in($statuses)],
+            'updated_at_date' => 'required|date_format:Y-m-d',
+            'updated_at_time' => 'required|date_format:H:i',
         ];
     }
 }
