@@ -9,6 +9,10 @@ class Teknisi extends Model
 {
     use HasFactory;
 
+    protected $table = 'teknisi';
+
+    protected $primaryKey = 'id';
+
     protected $fillable = [];
 
     public function issue()
