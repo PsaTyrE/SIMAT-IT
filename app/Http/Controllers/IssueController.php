@@ -62,8 +62,8 @@ class IssueController extends Controller
      */
     public function create()
     {
-        $departemen = Departemen::select('id', 'nama_departemen');
-        $hardware = Hardware::select('id', 'nama_hardware');
+        $departemen = Departemen::select('id', 'nama_departemen')->get();
+        $hardware = Hardware::select('id', 'nama_hardware')->get();
 
         return view('pages.issue.create', compact('departemen', 'hardware'));
     }
@@ -80,6 +80,8 @@ class IssueController extends Controller
             $hardwareID = $request->input('hardwareID', []);
             $issue->hardware()->sync($hardwareID);
         }
+
+        // dd($issue);
 
         return redirect()->route('issueToday')->with('success', 'Data berhasil Ditambahkan');
     }
