@@ -10,7 +10,7 @@ class Issue extends Model
     use HasFactory;
     protected $table = 'issue';
     protected $primaryKey = 'id';
-    protected $fillable = ['departremenID', 'teknisiID', 'nama', 'deskripsi', 'status', 'note' ,'created_at', 'udpated_at'];
+    protected $fillable = ['departemenID', 'teknisiID', 'nama', 'deskripsi', 'status', 'note', 'created_at', 'udpated_at'];
 
     public function departemen()
     {
@@ -26,6 +26,4 @@ class Issue extends Model
     {
         return $this->belongsToMany(Hardware::class, 'hardware_issue', 'issueID', 'hardwareID');
     }
-
-
 }
