@@ -11,7 +11,7 @@ class StoreIssueRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,10 @@ class StoreIssueRequest extends FormRequest
     {
         return [
             'departemenID' => 'required|exists:departemen,id',
+            'teknisiID' => 'nullable|exists:teknisi,id',
             'nama' => 'required|max:255',
             'deskripsi' => 'required|max:255',
+            'note' => 'nullable',
             'hardwareID.*' => 'required|exists:hardware,id'
 
         ];
