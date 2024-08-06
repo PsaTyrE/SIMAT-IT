@@ -7,6 +7,7 @@ use App\Http\Requests\StoreIssueRequest;
 use App\Http\Requests\UpdateIssueRequest;
 use App\Models\Departemen;
 use App\Models\Hardware;
+use App\Models\Teknisi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -99,7 +100,16 @@ class IssueController extends Controller
      */
     public function edit(Issue $issue)
     {
-        //
+        $issue = Issue::with(['departemen', 'teknisi', 'hardware'])->findOrFail($issue->id);
+        $departemen = Departemen::all('id', 'nama_departemen');
+        $hardware = Hardware::all('id', 'nama_hardware');
+        $teknisi = Teknisi::all('id', 'nama_teknisi');
+
+        $updatedAt = $issue->updated_at;
+        $updatedAtDate = $updatedAt->format('Y-m-d');
+        $updatedAtTime = $updatedAt->format('H:i');
+
+        return view('pages.issue.edit', compact('issue', 'departemen', 'hardware', 'teknisi', 'updatedAtDate', 'updatedAtTime'));
     }
 
     /**
