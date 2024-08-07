@@ -112,12 +112,22 @@ class IssueController extends Controller
         return view('pages.issue.edit', compact('issue', 'departemen', 'hardware', 'teknisi', 'updatedAtDate', 'updatedAtTime'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateIssueRequest $request, Issue $issue)
     {
-        //
+        $validatedData = $request->validated();
+
+        // dd($validatedData);
+
+        // Buat timestamp dari tanggal dan waktu
+        $updatedAt = Carbon::createFromFormat('Y-m-d H:i', "{$validatedData['updated_at_date']} {$validatedData['updated_at_time']}");
+
+        // Perbarui data issue dengan nilai baru, termasuk timestamp updated_at
+        $issue->update(array_merge($validatedData, ['updated_at' => $updatedAt]));
+
+        // dd($issue);
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('issueToday')->with('success', 'Data berhasil Diupdate');
     }
 
     /**
