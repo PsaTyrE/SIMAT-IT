@@ -22,3 +22,5 @@ Route::get('/', function () {
 
 Route::resource('issue', IssueController::class);
 Route::get('issue-today', [IssueController::class, 'issueToday'])->name('issueToday');
+Route::get('deleted-list', [IssueController::class, 'deletedList'])->name('deletedList');
+Route::get('{id}/restore', [IssueController::class, 'restore'])->name('restore');
