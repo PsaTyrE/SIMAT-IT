@@ -22,11 +22,13 @@ class UpdateIssueRequest extends FormRequest
      */
     public function rules(): array
     {
-        $statuses = ['open', 'onhold', 'complete'];
+
+        $statuses = ['open', 'onhold', 'complete']; // Define possible statuses
+
         return [
-            'teknisiID' => 'required"exists:teknisi,id',
-            'note' => 'required|max:255',
-            'status' => ['required', Rule::in($statuses)],
+            'teknisiID' => 'required|exists:teknisi,id',
+            'note' => 'required|string',
+            'status' => ['required', Rule::in($statuses)], // Validate against predefined statuses
             'updated_at_date' => 'required|date_format:Y-m-d',
             'updated_at_time' => 'required|date_format:H:i',
         ];
