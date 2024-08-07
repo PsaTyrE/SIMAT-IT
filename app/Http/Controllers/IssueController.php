@@ -80,12 +80,18 @@ class IssueController extends Controller
         if ($issue) {
             $hardwareID = $request->input('hardwareID', []);
             $issue->hardware()->sync($hardwareID);
+
+            // Set flash message using session()->flash()
+            session()->flash('success', 'Data berhasil Ditambahkan');
+        } else {
+            // Optionally, handle failure scenario
+            session()->flash('error', 'Data gagal Ditambahkan');
         }
 
-        // dd($issue);
-
-        return redirect()->route('issueToday')->with('success', 'Data berhasil Ditambahkan');
+        // Redirect to the issueToday route
+        return redirect()->route('issueToday');
     }
+
 
     /**
      * Display the specified resource.
