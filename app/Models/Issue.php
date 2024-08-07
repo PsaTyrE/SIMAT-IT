@@ -10,7 +10,7 @@ class Issue extends Model
     use HasFactory;
     protected $table = 'issue';
     protected $primaryKey = 'id';
-    protected $fillable = ['departemenID', 'teknisiID', 'nama', 'deskripsi', 'status', 'note', 'created_at', 'udpated_at'];
+    protected $fillable = ['departemenID', 'teknisiID', 'nama', 'deskripsi', 'status', 'note', 'created_at', 'updated_at'];
 
     public function departemen()
     {
