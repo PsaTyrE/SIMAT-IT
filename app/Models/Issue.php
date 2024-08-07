@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Issue extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
     protected $table = 'issue';
     protected $primaryKey = 'id';
     protected $fillable = ['departemenID', 'teknisiID', 'nama', 'deskripsi', 'status', 'note', 'created_at', 'updated_at'];
