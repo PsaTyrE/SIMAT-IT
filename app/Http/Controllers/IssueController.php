@@ -81,15 +81,15 @@ class IssueController extends Controller
             $hardwareID = $request->input('hardwareID', []);
             $issue->hardware()->sync($hardwareID);
 
-            // Set flash message using session()->flash()
-            session()->flash('success', 'Data berhasil Ditambahkan');
-        } else {
-            // Optionally, handle failure scenario
-            session()->flash('error', 'Data gagal Ditambahkan');
+            //     // Set flash message using session()->flash()
+            //     session()->flash('success', 'Data berhasil Ditambahkan');
+            // } else {
+            //     // Optionally, handle failure scenario
+            //     session()->flash('error', 'Data gagal Ditambahkan');
         }
 
         // Redirect to the issueToday route
-        return redirect()->route('issueToday');
+        return redirect()->route('issueToday')->with('success', 'Data berhasil ditambahkan');
     }
 
 
@@ -141,6 +141,38 @@ class IssueController extends Controller
      */
     public function destroy(Issue $issue)
     {
-        //
+        $deletedissue = Issue::findOrFail($issue->id);
+        $deletedissue->delete();
+
+        return redirect()->route('issue.index')->with('success', 'Data berhasil Dihapus');
+    }
+
+    public function deletedList(Request $request)
+    {
+        $deletedIssue = Issue::onlyTrashed()
+            ->when($request->input('nama'), function ($query, $nama) {
+                return $query->where('nama', 'like', '%' . $nama . '%');
+            })
+            ->when($request->input('created_at'), function ($query, $created_at) {
+                return $query->where('created_at', 'like', '%' . $created_at . '%');
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
+        // Debug the result to see if hardware data is included
+        // dd($deletedIssue);
+
+        return view('pages.issue.deleted-list', compact('deletedIssue'));
+    }
+
+
+    public function restore($id)
+    {
+        $issue = Issue::withTrashed()->findOrFail($id);
+        $issue->restore();
+
+        // dd($issue);
+
+        return redirect()->route('deletedList')->with('success', 'Issue successfully restored.');
     }
 }
