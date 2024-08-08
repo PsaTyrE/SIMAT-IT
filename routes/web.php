@@ -14,13 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+// Publicly accessible routes (no authentication required)
 Route::get('/', function () {
-    return view('pages.dashboard', [
-        'type_menu' => 'dahsboard'
-    ]);
+    return view('pages.dashboard');
 })->name('dashboard');
 
-Route::resource('issue', IssueController::class);
+Route::get('login', function () {
+    return view('pages.auth.login');
+})->name('login');
+
+Route::resource('issue', IssueController::class)->only(['index', 'create', 'store']);
 Route::get('issue-today', [IssueController::class, 'issueToday'])->name('issueToday');
-Route::get('deleted-list', [IssueController::class, 'deletedList'])->name('deletedList');
-Route::get('{id}/restore', [IssueController::class, 'restore'])->name('restore');
+
+// Routes that require authentication
+Route::middleware(['auth'])->group(function () {
+    Route::resource('issue', IssueController::class)->only(['edit', 'update', 'destroy']);
+    Route::get('deleted-list', [IssueController::class, 'deletedList'])->name('deletedList');
+    Route::get('issue/{id}/restore', [IssueController::class, 'restore'])->name('restore');
+});
