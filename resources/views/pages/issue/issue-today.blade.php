@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('title', 'Posts')
 
 @push('style')
@@ -11,14 +12,10 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>SIMAT - IT Complete</h1>
-                @auth
-                    <div class="section-header-button">
-                        <a href="{{ route('deletedList') }}" class="btn btn-primary">Show Deleted Data</a>
-                    </div>
-                @endauth
+                <h1>SIMAT - IT Today</h1>
             </div>
             <div class="section-body">
+                <!-- Include alert section -->
                 @include('layouts.alert')
                 <div class="row mt-4">
                     <div class="col-12">
@@ -28,6 +25,8 @@
                                     <form>
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="Search" name="nama">
+                                            <input type="date" class="form-control" placeholder="Search"
+                                                name="created_at">
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                                             </div>
@@ -45,8 +44,6 @@
                                                 <th>Deskripsi</th>
                                                 <th>Hardware</th>
                                                 <th>Status</th>
-                                                <th>Teknisi</th>
-                                                <th>Note</th>
                                                 <th>End Date</th>
                                                 @auth
                                                     <th>Action</th>
@@ -66,32 +63,19 @@
                                                         @endforeach
                                                     </td>
                                                     <td>
-                                                        <span class="badge badge-danger">{{ ucfirst($item->status) }}</span>
-                                                    </td>
-                                                    <td>
-                                                        @if ($item->teknisi)
-                                                            {{ $item->teknisi['nama_teknisi'] }}
+                                                        @if ($item->status == 'open')
+                                                            <span class="badge badge-success">Open</span>
+                                                        @elseif ($item->status == 'onhold')
+                                                            <span class="badge badge-warning">On Hold</span>
                                                         @else
-                                                            <span class="text-muted">No Teknisi Assigned</span>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($item->note)
-                                                            {{ $item->note }}
-                                                        @else
-                                                            <span class="text-muted">No Note Assigned</span>
+                                                            <span class="badge badge-danger">Complete</span>
                                                         @endif
                                                     </td>
                                                     <td>{{ $item->updated_at->translatedFormat('d F Y H:i') }}</td>
                                                     @auth
                                                         <td>
-                                                            <form action="{{ route('issue.destroy', $item->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-sm btn-danger"
-                                                                    onclick="return confirm('Are you sure you want to delete this item?')">Delete</button>
-                                                            </form>
+                                                            <a href="{{ route('issue.edit', $item->id) }}"
+                                                                class="btn btn-sm btn-primary">Edit</a>
                                                         </td>
                                                     @endauth
                                                 </tr>

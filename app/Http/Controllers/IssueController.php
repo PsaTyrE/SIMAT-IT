@@ -10,6 +10,7 @@ use App\Models\Hardware;
 use App\Models\Teknisi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Telegram\Bot\Api;
 
 class IssueController extends Controller
 {
@@ -81,11 +82,7 @@ class IssueController extends Controller
             $hardwareID = $request->input('hardwareID', []);
             $issue->hardware()->sync($hardwareID);
 
-            //     // Set flash message using session()->flash()
-            //     session()->flash('success', 'Data berhasil Ditambahkan');
-            // } else {
-            //     // Optionally, handle failure scenario
-            //     session()->flash('error', 'Data gagal Ditambahkan');
+            $this->sendTelegramNotif($issue);
         }
 
         // Redirect to the issueToday route
@@ -174,5 +171,27 @@ class IssueController extends Controller
         // dd($issue);
 
         return redirect()->route('deletedList')->with('success', 'Issue successfully restored.');
+    }
+
+    public function sendTelegramNotif(Issue $issue)
+    {
+        $telegram = new Api(env('TELEGRAM_BOT_TOKEN'));
+        $chatID = env('TELEGRAM_CHAT_ID');
+
+        $message = "[SIMAT]\n" .
+            "Nama: " . $issue->nama . "\n" .
+            "Deskripsi: " . strip_tags($issue->deskripsi) . "\n" .
+            "Status: " . $issue->status . "\n" .
+            "Departemen: " . $issue->departemen->nama_departemen . "\n" .
+            "Hardware Problem: ";
+
+        foreach ($issue->hardware as $item) {
+            $message .= $item->nama_hardware;
+        }
+
+        $telegram->sendMessage([
+            'chat_id' => $chatID,
+            'text' => $message,
+        ]);
     }
 }
