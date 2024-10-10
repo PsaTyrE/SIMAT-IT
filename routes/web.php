@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\IssueController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,4 +34,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('issue', IssueController::class)->only(['edit', 'update', 'destroy']);
     Route::get('deleted-list', [IssueController::class, 'deletedList'])->name('deletedList');
     Route::get('issue/{id}/restore', [IssueController::class, 'restore'])->name('restore');
+    Route::get('/report/date', [ReportController::class, 'showDateForm'])->name('report.date.form');
+    Route::post('/report/date/pdf', [ReportController::class, 'generateDateReportPDF'])->name('report.date.pdf');
 });

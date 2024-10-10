@@ -10,6 +10,39 @@
     <ul class="navbar-nav navbar-right">
         @auth
             <!-- Display when the user is logged in -->
+            <!-- Notification Dropdown in Blade Template -->
+            {{-- <li class="nav-item dropdown">
+                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-bell"></i>
+                    @if ($unreadNotifications->count() > 0)
+                        <span class="badge badge-danger">{{ $unreadNotifications->count() }}</span>
+                    @endif
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <h6 class="dropdown-header">Notifications</h6>
+                    <div class="notification-content">
+                        @foreach ($notifications as $notification)
+                            <a class="dropdown-item" href="{{ route('your.route', $notification->id) }}">
+                                <div class="d-flex align-items-center">
+                                    <div class="notification-icon">
+                                        <i class="{{ $notification->icon }}"></i>
+                                    </div>
+                                    <div class="notification-text">
+                                        <p>{{ $notification->message }}</p>
+                                        <small>{{ $notification->created_at->diffForHumans() }}</small>
+                                    </div>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                    <div class="dropdown-footer">
+                        <a href="{{ route('notifications.index') }}">View All</a>
+                    </div>
+                </div>
+            </li> --}}
+
             <li class="dropdown">
                 <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                     <img alt="image" src="{{ asset('img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
@@ -31,11 +64,10 @@
         @guest
             <!-- Display when the user is not logged in -->
             <li class="nav-item">
-                <a href="{{ route('login') }}" class="nav-link">
-                    <i class="fas fa-sign-in-alt"></i> Login
+                <a href="{{ route('login') }}" class="nav-link nav-link-lg nav-link-user">
+                    <div class="d-sm-none d-lg-inline-block">Login</div>
                 </a>
             </li>
         @endguest
     </ul>
-
 </nav>

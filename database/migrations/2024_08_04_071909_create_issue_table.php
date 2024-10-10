@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('issue', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('deskripsi');
+            $table->text('deskripsi');
             $table->enum('status', ['open', 'onhold', 'complete'])->default('open');
             $table->string('note')->nullable();
             $table->timestamps();

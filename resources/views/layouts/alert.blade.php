@@ -1,21 +1,31 @@
 @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show">
-        <div class="alert-body">
-            <button type="button" class="close" data-dismiss="alert">
-                <span>&times;</span>
-            </button>
-            <p>{{ session('success') }}</p>
-        </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        });
+    </script>
 @endif
 
 @if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show">
-        <div class="alert-body">
-            <button type="button" class="close" data-dismiss="alert">
-                <span>&times;</span>
-            </button>
-            <p>{{ session('error') }}</p>
-        </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        });
+    </script>
 @endif
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endpush

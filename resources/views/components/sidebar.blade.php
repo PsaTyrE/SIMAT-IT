@@ -13,10 +13,12 @@
                         class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
             <li class="menu-header">Starter</li>
-            <li class="nav-item">
-                <a href="{{ route('issue.create') }}" class="nav-link"><i class="fas fa-plus-circle"></i>
-                    <span>SIMAT-IT</span></a>
-            </li>
+            @guest
+                <li class="nav-item">
+                    <a href="{{ route('issue.create') }}" class="nav-link"><i class="fas fa-plus-circle"></i>
+                        <span>SIMAT-IT</span></a>
+                </li>
+            @endguest
             <li class="nav-item">
                 <a href="{{ route('issueToday') }}" class="nav-link"><i class="fas fa-columns"></i> <span>SIMAT-IT
                         Today</span></a>
@@ -25,5 +27,10 @@
                 <a href="{{ route('issue.index') }}" class="nav-link"><i class="fas fa-columns"></i> <span>SIMAT-IT
                         Complete</span></a>
             </li>
+            @auth
+            <li class="nav-item">
+                <a href="{{ route('report.date.form') }}" class="nav-link"><i class="fas fa-columns"></i> <span>Report</span></a>
+            </li>
+            @endauth
     </aside>
 </div>

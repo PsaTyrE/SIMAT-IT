@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use Database\Seeders\RoleSeeder as SeedersRoleSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use RoleSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,9 +21,11 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@example.com',
-            'password' => Hash::make(1234),
         ]);
 
-        // $this->call(DepartemenSeeder::class);
+        $this->call([
+            DepartemenSeeder::class,
+            HardwareSeeder::class
+        ]);
     }
 }

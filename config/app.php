@@ -162,6 +162,7 @@ return [
 
         //  fortify provider
         \App\Providers\FortifyServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...

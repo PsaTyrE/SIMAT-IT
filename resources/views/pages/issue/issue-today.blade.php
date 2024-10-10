@@ -71,7 +71,8 @@
                                                             <span class="badge badge-danger">Complete</span>
                                                         @endif
                                                     </td>
-                                                    <td>{{ $item->updated_at->translatedFormat('d F Y H:i') }}</td>
+                                                    {{-- <td>{{ $item->updated_at->translatedFormat('d F Y H:i') }}</td> --}}
+                                                    <td>{{ $item->updated_at_formatted }}</td>
                                                     @auth
                                                         <td>
                                                             <a href="{{ route('issue.edit', $item->id) }}"
